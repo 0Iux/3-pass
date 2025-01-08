@@ -2,7 +2,6 @@ package bins
 
 import (
 	"encoding/json"
-	"go_pass/file"
 	"go_pass/storage"
 	"time"
 
@@ -26,8 +25,14 @@ func NewBin(id, name string, private bool) *Bin {
 
 }
 
+type Db interface {
+	ByteReader(string) ([]byte, error)
+	ByteWriter([]byte)
+}
+
 type BinList struct {
 	Bins []Bin `json:"bins"`
+	Db   Db
 }
 
 func (binList *BinList) ToBytes() ([]byte, error) {
@@ -44,11 +49,11 @@ func (binList *BinList) AddBin(bin *Bin) {
 	if err != nil {
 		color.Red(err.Error())
 	}
-	storage.SaveToJson(&data)
+	binList.Db.ByteWriter(data)
 }
 
 func NewBinLIst() *BinList {
-	file, err := file.ReadFile("storage.json")
+	file, err := storage.ReadFromJson("storage.json")
 	if err != nil {
 		return &BinList{
 			Bins: []Bin{},

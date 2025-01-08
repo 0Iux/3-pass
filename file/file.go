@@ -27,7 +27,7 @@ func IsJson(path string) bool {
 	return path[len(path)-5:] == ".json"
 }
 
-func WriteFile(content []byte, name string) {
+func ByteWriter(content []byte, name string) {
 	file, err := os.Create(name)
 	if err != nil {
 		fmt.Println(err)

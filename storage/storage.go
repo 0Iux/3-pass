@@ -7,19 +7,21 @@ import (
 	"github.com/fatih/color"
 )
 
-func SaveToJson(data *[]byte) {
-	file.WriteFile(*data, "storage.json")
+func ByteWriter(data *[]byte) {
+	file.ByteWriter(*data, "storage.json")
 }
 
-func ReadFromJson() []byte {
-	data, err := file.ReadFile("storage.json")
+func ReadFromJson(path string) ([]byte, error) {
+	data, err := file.ReadFile(path)
 	if err != nil {
 		color.Red(err.Error())
+		return nil, err
 	}
 	var binData []byte
 	err = json.Unmarshal(data, &binData)
 	if err != nil {
 		color.Red(err.Error())
+		return nil, err
 	}
-	return binData
+	return binData, nil
 }

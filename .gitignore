@@ -1,3 +1,5 @@
-go_pass.exe
+storage.json
 go.mod
 go.sum
+go_pass.exe
+/.env*
