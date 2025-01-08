@@ -1,9 +1,19 @@
 package main
 
-import "go_pass/bins"
+import (
+	"fmt"
+	"go_pass/api"
+	"go_pass/config"
+
+	"github.com/joho/godotenv"
+)
 
 func main() {
-	binList := bins.NewBinLIst()
-	new_bin := bins.NewBin("1", "why", true)
-	binList.AddBin(new_bin)
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Не удалось найти env файл")
+	}
+	conf := config.NewConfig()
+	api := api.NewApi(*conf, "https://lol.ru")
+	fmt.Println(api)
 }
